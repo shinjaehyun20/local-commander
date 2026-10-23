@@ -1,0 +1,4 @@
+# Replace both paths with this checkout's absolute paths; keep deployment data local.
+[mcp_servers.local-commander]
+command = "node"
+args = ["C:/path/to/local-commander/server.mjs", "--config", "C:/path/to/local-commander/config.json"]

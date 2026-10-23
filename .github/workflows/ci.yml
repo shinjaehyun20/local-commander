@@ -1,0 +1,38 @@
+name: Windows Verification & Source Manifest CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  verify-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies cleanly
+        run: npm ci --ignore-scripts
+
+      - name: Run Node.js MCP, OAuth, Relay & Manifest tests
+        shell: pwsh
+        run: |
+          $env:COMMANDER_PYTHON = (Get-Command python).Source
+          $env:LOCAL_COMMANDER_VENDOR = Join-Path $PWD '.work/nonexistent-vendor'
+          npm test
+
+      - name: Run Python login recovery & supervisor tests
+        shell: pwsh
+        run: python tests/startup_test.py

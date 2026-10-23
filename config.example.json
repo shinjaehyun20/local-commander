@@ -1,0 +1,10 @@
+{
+  "name": "Local Commander",
+  "readRoots": [
+    "./workspace"
+  ],
+  "writeRoots": [],
+  "allowShell": false,
+  "allowRemoteWrites": false,
+  "python": "python"
+}

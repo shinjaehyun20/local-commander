@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "upstreamAuthenticationCommit": "535a07dbb7aee887924c53767d985c09d405319d",
+  "copiedSource": [
+    {
+      "path": "core.mjs",
+      "sourceSha256": "93a0ac322e801e396ca94da918d2ef344677b407d2ca4bf60eb8eed96c9eff24",
+      "repositorySha256": "93a0ac322e801e396ca94da918d2ef344677b407d2ca4bf60eb8eed96c9eff24",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "server.mjs",
+      "sourceSha256": "79c09bb79a58fc241f0c420175b97e4ae6d4cc86815896a100111ca9974eace5",
+      "repositorySha256": "79c09bb79a58fc241f0c420175b97e4ae6d4cc86815896a100111ca9974eace5",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "remote.mjs",
+      "sourceSha256": "c260f77dc28ecbc7381c1136806efa0aca375471bf3b4521d025a98c990a2c72",
+      "repositorySha256": "c260f77dc28ecbc7381c1136806efa0aca375471bf3b4521d025a98c990a2c72",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "deps.mjs",
+      "sourceSha256": "547e2779780d432273bd3d4d6a09937e4fedfbd122b791148f60ef272e34b2e9",
+      "repositorySha256": "547e2779780d432273bd3d4d6a09937e4fedfbd122b791148f60ef272e34b2e9",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "launch.mjs",
+      "sourceSha256": "6f8b1fe5ad3a2a67d252b733f87404d7aa09c3d47e26a0c1a0da35da89cbf07a",
+      "repositorySha256": "6f8b1fe5ad3a2a67d252b733f87404d7aa09c3d47e26a0c1a0da35da89cbf07a",
+      "preservedExactly": true,
+      "change": "Added --socket delegation to launch-socket.mjs for fixed-address WebSocket relay recovery."
+    },
+    {
+      "path": "relay-client.mjs",
+      "sourceSha256": "d7f12ef9fcf64defd24aadf335deb99a0c11b35a6b4153ebb9ea0cadb9673f7d",
+      "repositorySha256": "d7f12ef9fcf64defd24aadf335deb99a0c11b35a6b4153ebb9ea0cadb9673f7d",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "relay-worker.mjs",
+      "sourceSha256": "aea5a08a66f08df370ba4df3ef672e8b996fc58312dd1359416eda469b3a9aed",
+      "repositorySha256": "aea5a08a66f08df370ba4df3ef672e8b996fc58312dd1359416eda469b3a9aed",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "tunnel-config.mjs",
+      "sourceSha256": "203669d25a57109a9d7d2ff53c48fcbc84013442833d2d0b49adff6b4343ac8d",
+      "repositorySha256": "203669d25a57109a9d7d2ff53c48fcbc84013442833d2d0b49adff6b4343ac8d",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "startup.py",
+      "sourceSha256": "f930462dc415677e487c04a4c291f2025c02003055618b5783671331bb0b93ec",
+      "repositorySha256": "f930462dc415677e487c04a4c291f2025c02003055618b5783671331bb0b93ec",
+      "preservedExactly": true,
+      "change": "Added WebSocket relay --socket argument forwarding in commander recovery path."
+    },
+    {
+      "path": "supervise.py",
+      "sourceSha256": "f0c0a576279ade14c159545a62fb145b4549f53ce32ea3aabedb96d0296259a2",
+      "repositorySha256": "f0c0a576279ade14c159545a62fb145b4549f53ce32ea3aabedb96d0296259a2",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "install-startup.ps1",
+      "sourceSha256": "5602bfcfe5890018b29980b028bae5b430199cadfcd3fbaf79a6cdaafa4c6950",
+      "repositorySha256": "5602bfcfe5890018b29980b028bae5b430199cadfcd3fbaf79a6cdaafa4c6950",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "start-service.ps1",
+      "sourceSha256": "01ae1f217063fda9b234142baae03b32af18c75172ce6890c0b3eae7d8e7bf12",
+      "repositorySha256": "01ae1f217063fda9b234142baae03b32af18c75172ce6890c0b3eae7d8e7bf12",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "package.json",
+      "sourceSha256": "5c4b77c34055f83b0a935e13354ed46e81b7da9e145d8f86218d04e5c9b57a96",
+      "repositorySha256": "5c4b77c34055f83b0a935e13354ed46e81b7da9e145d8f86218d04e5c9b57a96",
+      "preservedExactly": true,
+      "change": "Repository metadata and SDK 1.30.0 -> 1.31.0 (GHSA-6qxp-vccf-f47h fixed release)."
+    },
+    {
+      "path": "tests/commander.test.mjs",
+      "sourceSha256": "d329c5386c62bce892d3b6a58213ef2e346b5e2df831c4040a039484d9c7d2b8",
+      "repositorySha256": "d329c5386c62bce892d3b6a58213ef2e346b5e2df831c4040a039484d9c7d2b8",
+      "preservedExactly": true,
+      "change": "Portable test paths; existing behavior and assertions retained."
+    },
+    {
+      "path": "tests/persistence.test.mjs",
+      "sourceSha256": "9066ad6d27fe4b8cb0c9f78984c6fef47254417c577d0860eed654fea9e090f8",
+      "repositorySha256": "9066ad6d27fe4b8cb0c9f78984c6fef47254417c577d0860eed654fea9e090f8",
+      "preservedExactly": true,
+      "change": "Portable test paths; existing behavior and assertions retained."
+    },
+    {
+      "path": "tests/relay.test.mjs",
+      "sourceSha256": "99225ac1420b2ca8350c9dcf40a892ad2cb74c2d8744349a3d1111f6a0056e64",
+      "repositorySha256": "99225ac1420b2ca8350c9dcf40a892ad2cb74c2d8744349a3d1111f6a0056e64",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "tests/remote.test.mjs",
+      "sourceSha256": "bbd1205c2aac977bcf802cb00825f0a340dbd11dde99b8203f0d209d19f086fa",
+      "repositorySha256": "bbd1205c2aac977bcf802cb00825f0a340dbd11dde99b8203f0d209d19f086fa",
+      "preservedExactly": true,
+      "change": "Portable test paths plus corrupt auth state preservation and atomic write verification."
+    },
+    {
+      "path": "tests/startup_test.py",
+      "sourceSha256": "51072ecaa21fab3746aa06756ba574d765ab3b6580740f49b7011929cac81023",
+      "repositorySha256": "51072ecaa21fab3746aa06756ba574d765ab3b6580740f49b7011929cac81023",
+      "preservedExactly": true,
+      "change": "Added supervised WebSocket restart verification when runtime state is stopped."
+    },
+    {
+      "path": "tests/tool-catalog.test.mjs",
+      "sourceSha256": "ed942db5a1e2e109b21e164d4829f6e7a8187cf60ff84ea87dcfd6162d5470f6",
+      "repositorySha256": "ed942db5a1e2e109b21e164d4829f6e7a8187cf60ff84ea87dcfd6162d5470f6",
+      "preservedExactly": true,
+      "change": "Portable test paths; existing behavior and assertions retained."
+    },
+    {
+      "path": "tests/tunnel.test.mjs",
+      "sourceSha256": "0d76c69a76265cd844f1712a296bc70da1370ee2fa75c3b8c6ac1adfae693ae6",
+      "repositorySha256": "0d76c69a76265cd844f1712a296bc70da1370ee2fa75c3b8c6ac1adfae693ae6",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "vendor-auth/auth/html.js",
+      "sourceSha256": "43c9827231cdd4c7c1096b1bd06c1fa30d40bc91c723aea5a0e21327afe29111",
+      "repositorySha256": "43c9827231cdd4c7c1096b1bd06c1fa30d40bc91c723aea5a0e21327afe29111",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "vendor-auth/auth/middleware.js",
+      "sourceSha256": "25da4dadd651f4ce474f745a6435591cf8113baf1189bda4c1928bc46fcf874c",
+      "repositorySha256": "25da4dadd651f4ce474f745a6435591cf8113baf1189bda4c1928bc46fcf874c",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "vendor-auth/auth/oauth.js",
+      "sourceSha256": "ab8cc61fd8e32a91a011d9a533b801e28620bc849904717db72a14ca4c54a759",
+      "repositorySha256": "ab8cc61fd8e32a91a011d9a533b801e28620bc849904717db72a14ca4c54a759",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "vendor-auth/auth/store.js",
+      "sourceSha256": "652318206865ecab596d96bfea996b9eccd83d654278f657e4aef9b97c0adcb2",
+      "repositorySha256": "652318206865ecab596d96bfea996b9eccd83d654278f657e4aef9b97c0adcb2",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "vendor-auth/config/paths.js",
+      "sourceSha256": "57111d62d58b227a677026a26a82805e4a1c212804e835f568dbcd9fb316703a",
+      "repositorySha256": "57111d62d58b227a677026a26a82805e4a1c212804e835f568dbcd9fb316703a",
+      "preservedExactly": true,
+      "change": "Distinguish missing vs corrupt JSON state files, preserve corrupt backups, and use atomic temp-file replacement."
+    },
+    {
+      "path": "vendor-auth/LICENSE",
+      "sourceSha256": "b5f1884bf3e0081f5e583b946fde29fac68ffe87da4c30abd7b698666421f5d8",
+      "repositorySha256": "b5f1884bf3e0081f5e583b946fde29fac68ffe87da4c30abd7b698666421f5d8",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "vendor-auth/pairing/manager.js",
+      "sourceSha256": "255cec5d79242b0581a5137c041e2b1db3853a6c125d98136387232f50795abc",
+      "repositorySha256": "255cec5d79242b0581a5137c041e2b1db3853a6c125d98136387232f50795abc",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "vendor-auth/provenance.json",
+      "sourceSha256": "190fc7d0298ecc6ec085e7315552bb0c9921773306d0cc5ff00f3239e3a75d3f",
+      "repositorySha256": "190fc7d0298ecc6ec085e7315552bb0c9921773306d0cc5ff00f3239e3a75d3f",
+      "preservedExactly": true,
+      "change": "Replace local source paths with upstream-relative provenance; preserve license and source hashes."
+    },
+    {
+      "path": "vendor-auth/version.js",
+      "sourceSha256": "e0f88c06b75154f6df1d44539f600f8d243ea69f48214fac454e5899db0ef9c9",
+      "repositorySha256": "e0f88c06b75154f6df1d44539f600f8d243ea69f48214fac454e5899db0ef9c9",
+      "preservedExactly": true,
+      "change": null
+    },
+    {
+      "path": "launch-socket.mjs",
+      "sourceSha256": "ab1d3370b5681a8516034ca914089d91865fa9840b759a1d547c47da507908ee",
+      "repositorySha256": "ab1d3370b5681a8516034ca914089d91865fa9840b759a1d547c47da507908ee",
+      "preservedExactly": true,
+      "change": "Fixed-address WebSocket relay launcher preserving existing OAuth state."
+    },
+    {
+      "path": "relay-socket-client.mjs",
+      "sourceSha256": "5c9c053f7fcdfe3f07d64041dddd94de308a19c3aad7d08c0b5dd5c5dfcef938",
+      "repositorySha256": "5c9c053f7fcdfe3f07d64041dddd94de308a19c3aad7d08c0b5dd5c5dfcef938",
+      "preservedExactly": true,
+      "change": "CommanderSocketRelay v1 client with reconnect backoff and write-retry guard."
+    },
+    {
+      "path": "tests/relay-socket-client.test.mjs",
+      "sourceSha256": "f605e72c9ce061e654789c6982725a5822d9d827d80217846a20b163277b1f4f",
+      "repositorySha256": "f605e72c9ce061e654789c6982725a5822d9d827d80217846a20b163277b1f4f",
+      "preservedExactly": true,
+      "change": "Socket relay validation, forwarding, automatic reconnect, and retry exhaustion tests."
+    },
+    {
+      "path": "tests/manifest.test.mjs",
+      "sourceSha256": "86c650b56b1d9596190fd6ea42a1be6d2e71a721399aeca189d8b4476c3c91ca",
+      "repositorySha256": "86c650b56b1d9596190fd6ea42a1be6d2e71a721399aeca189d8b4476c3c91ca",
+      "preservedExactly": true,
+      "change": "Automated SHA-256 verification for all SOURCE_MANIFEST.json entries."
+    },
+    {
+      "path": "setup-wizard.mjs",
+      "preservedExactly": true,
+      "change": "Added first-run setup wizard and end-to-end test suite",
+      "sourceSha256": "a6e7b9806174f3cbd4be5a0785166fea5f7e460eaaca09b38465df19c3e7f795",
+      "repositorySha256": "a6e7b9806174f3cbd4be5a0785166fea5f7e460eaaca09b38465df19c3e7f795"
+    },
+    {
+      "path": "tests/setup-wizard.test.mjs",
+      "preservedExactly": true,
+      "change": "Added first-run setup wizard and end-to-end test suite",
+      "sourceSha256": "62be07961554c794506be9b2b5ef8a6af4fc60013670f3949908677d516cf79a",
+      "repositorySha256": "62be07961554c794506be9b2b5ef8a6af4fc60013670f3949908677d516cf79a"
+    }
+  ],
+  "testContractFixture": {
+    "path": "tests/fixtures/server-contract-before.mjs",
+    "sha256": "a5b6e064e67e14eb48360ed986e8a895a1400850df3d5c06bf3241223622d65b"
+  },
+  "templateSources": [
+    {
+      "url": "https://raw.githubusercontent.com/github/gitignore/main/Node.gitignore",
+      "sha256": "dcb0fefb689cd92e1532e3e9dd30ff1d9e2a5a8d36c9878926f9716c3d389d1d",
+      "license": "CC0-1.0"
+    }
+  ]
+}

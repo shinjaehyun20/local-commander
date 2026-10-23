@@ -1,0 +1,43 @@
+{
+  "source_commit": "535a07dbb7aee887924c53767d985c09d405319d",
+  "license": "MIT",
+  "adaptations": [
+    "Local Commander permission scopes",
+    "explicit command access description",
+    "local dependency loader",
+    "unknown scopes rejected"
+  ],
+  "files": [
+    {
+      "source": "dist/auth/store.js",
+      "source_sha256": "89aa72047d92ba870d838dc445c56b16a2570783970f6c84c57f009e49ef96b8",
+      "output": "auth/store.js",
+      "output_sha256": "21b5152c7096a9b372f81fe2cf31f6a83c6e26c699704a3a1094017c55cc4c9c"
+    },
+    {
+      "source": "dist/auth/oauth.js",
+      "source_sha256": "e1655423fa7d8d0536576212a6f9b96d8243b8ac690c4cdad28647c092c07279",
+      "output": "auth/oauth.js",
+      "output_sha256": "ab8cc61fd8e32a91a011d9a533b801e28620bc849904717db72a14ca4c54a759"
+    },
+    {
+      "source": "dist/auth/html.js",
+      "source_sha256": "8107b332dee810bd581a45ff992303030138825bf3a19b394db3613e952f9278",
+      "output": "auth/html.js",
+      "output_sha256": "43c9827231cdd4c7c1096b1bd06c1fa30d40bc91c723aea5a0e21327afe29111"
+    },
+    {
+      "source": "dist/auth/middleware.js",
+      "source_sha256": "b36a9775bd721832d47ed69240bcbf70a6c2813f47a5d587eeeb91e2460f67f7",
+      "output": "auth/middleware.js",
+      "output_sha256": "7e70d1a4e88d912e95b08c50e464bfd6acb4063979edd6bfab0d04264d7bd670"
+    },
+    {
+      "source": "dist/pairing/manager.js",
+      "source_sha256": "089987bfc8bdf72b38bb8133814720450f41b15324024e4b49fef3f79e738e20",
+      "output": "pairing/manager.js",
+      "output_sha256": "255cec5d79242b0581a5137c041e2b1db3853a6c125d98136387232f50795abc"
+    }
+  ],
+  "source_repository": "https://github.com/XiaoDuoYa/codex-with-chatgpt"
+}

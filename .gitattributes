@@ -1,0 +1,2 @@
+# Keep runtime source bytes identical to the preserved snapshot.
+* -text

@@ -34,5 +34,6 @@ jobs:
           npm test
 
       - name: Run Python login recovery & supervisor tests
+        if: ${{ !cancelled() }}
         shell: pwsh
         run: python tests/startup_test.py

@@ -81,16 +81,19 @@ export function runSetupWizard({
     }
   }
 
+  const canonicalReadRoots = resolvedReadRoots.map((dir) => fs.realpathSync.native(dir));
+  const canonicalWriteRoots = resolvedWriteRoots.map((dir) => fs.realpathSync.native(dir));
+
   const workspaceId =
     existing.workspaceId && /^[a-f0-9]{12}$/.test(existing.workspaceId)
       ? existing.workspaceId
-      : computeWorkspaceId(resolvedReadRoots);
+      : computeWorkspaceId(canonicalReadRoots);
 
   const config = {
     name: existing.name || 'Local Commander',
     workspaceId,
-    readRoots: resolvedReadRoots,
-    writeRoots: resolvedWriteRoots,
+    readRoots: canonicalReadRoots,
+    writeRoots: canonicalWriteRoots,
     allowShell: Boolean(allowShell),
     allowRemoteWrites: Boolean(allowRemoteWrites),
     python: python || existing.python || 'python',

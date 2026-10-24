@@ -12,7 +12,7 @@ const { Client } = await dependency('@modelcontextprotocol/sdk/client/index.js')
 const { InMemoryTransport } = await dependency('@modelcontextprotocol/sdk/inMemory.js');
 
 test('setup wizard creates valid local config, client snippets, and boots MCP server end-to-end', async () => {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lc-wizard-local-'));
+  const tmpDir = fs.realpathSync.native(fs.mkdtempSync(path.join(os.tmpdir(), 'lc-wizard-local-')));
   try {
     const workspaceDir = path.join(tmpDir, 'my-workspace');
     const configPath = path.join(tmpDir, 'config.json');
@@ -60,7 +60,7 @@ test('setup wizard creates valid local config, client snippets, and boots MCP se
 });
 
 test('setup wizard relay mode generates 64-hex relay.secret and startup-config.json', () => {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lc-wizard-relay-'));
+  const tmpDir = fs.realpathSync.native(fs.mkdtempSync(path.join(os.tmpdir(), 'lc-wizard-relay-')));
   try {
     const stateDir = path.join(tmpDir, 'state');
     const configPath = path.join(tmpDir, 'config.json');

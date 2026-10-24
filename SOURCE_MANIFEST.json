@@ -89,9 +89,9 @@
     {
       "path": "package.json",
       "sourceSha256": "5c4b77c34055f83b0a935e13354ed46e81b7da9e145d8f86218d04e5c9b57a96",
-      "repositorySha256": "5c4b77c34055f83b0a935e13354ed46e81b7da9e145d8f86218d04e5c9b57a96",
-      "preservedExactly": true,
-      "change": "Repository metadata and SDK 1.30.0 -> 1.31.0 (GHSA-6qxp-vccf-f47h fixed release)."
+      "repositorySha256": "ae539890941303db60affa822cc3a6b273408bdcc7bcecc558fb5f0dba6c4879",
+      "preservedExactly": false,
+      "change": "Repository metadata, SDK 1.30.0 -> 1.31.0 (GHSA-6qxp-vccf-f47h fixed release), and cross-platform node --test discovery."
     },
     {
       "path": "tests/commander.test.mjs",
@@ -235,17 +235,17 @@
     },
     {
       "path": "setup-wizard.mjs",
-      "preservedExactly": true,
-      "change": "Added first-run setup wizard and end-to-end test suite",
+      "preservedExactly": false,
+      "change": "Added first-run setup wizard and canonical realpath normalization for Windows 8.3 short paths.",
       "sourceSha256": "a6e7b9806174f3cbd4be5a0785166fea5f7e460eaaca09b38465df19c3e7f795",
-      "repositorySha256": "a6e7b9806174f3cbd4be5a0785166fea5f7e460eaaca09b38465df19c3e7f795"
+      "repositorySha256": "a8e0b49573332707f9ff025b054b0f82121085c378d20cefdff6f9646389dd2e"
     },
     {
       "path": "tests/setup-wizard.test.mjs",
-      "preservedExactly": true,
-      "change": "Added first-run setup wizard and end-to-end test suite",
+      "preservedExactly": false,
+      "change": "Added first-run setup wizard end-to-end test suite with Windows 8.3 short-path realpath normalization.",
       "sourceSha256": "62be07961554c794506be9b2b5ef8a6af4fc60013670f3949908677d516cf79a",
-      "repositorySha256": "62be07961554c794506be9b2b5ef8a6af4fc60013670f3949908677d516cf79a"
+      "repositorySha256": "e538f06c4ea613ff66dcb94c10bc3a617e16d261df83b696b41b9103033cf599"
     }
   ],
   "testContractFixture": {

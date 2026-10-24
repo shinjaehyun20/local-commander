@@ -89,9 +89,9 @@
     {
       "path": "package.json",
       "sourceSha256": "5c4b77c34055f83b0a935e13354ed46e81b7da9e145d8f86218d04e5c9b57a96",
-      "repositorySha256": "5c4b77c34055f83b0a935e13354ed46e81b7da9e145d8f86218d04e5c9b57a96",
-      "preservedExactly": true,
-      "change": "Repository metadata and SDK 1.30.0 -> 1.31.0 (GHSA-6qxp-vccf-f47h fixed release)."
+      "repositorySha256": "ae539890941303db60affa822cc3a6b273408bdcc7bcecc558fb5f0dba6c4879",
+      "preservedExactly": false,
+      "change": "Repository metadata and SDK 1.30.0 -> 1.31.0 (GHSA-6qxp-vccf-f47h fixed release). Use Node.js built-in test discovery so npm test runs on Windows without shell wildcard expansion."
     },
     {
       "path": "tests/commander.test.mjs",

@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0-antigravity-commercial-v2-live-receipt",
-  "published_at": "2026-10-24T22:34:06+09:00",
+  "published_at": "2026-10-25T01:28:00+09:00",
   "product": "Local Commander v1.0.0",
   "repository": "https://github.com/shinjaehyun20/local-commander",
   "overall_status": "OUTWARD_VERIFIED",
@@ -15,6 +15,15 @@
       "account": "@shinjaehyun2018",
       "root_tweet_id": "2113983776024076795",
       "root_tweet_url": "https://x.com/shinjaehyun2018/status/2113983776024076795",
+      "visual_3d_showcase_tweet_id": "2114030236811849858",
+      "visual_3d_showcase_tweet_url": "https://x.com/shinjaehyun2018/status/2114030236811849858",
+      "visual_3d_cards_attached": 4,
+      "visual_3d_media_urls": [
+        "https://pbs.twimg.com/media/HVaLKy2bgAA-Dzk?format=jpg&name=small",
+        "https://pbs.twimg.com/media/HVaLKy2bMAA_BYz?format=jpg&name=small",
+        "https://pbs.twimg.com/media/HVaLKy9bwAALgBC?format=jpg&name=small",
+        "https://pbs.twimg.com/media/HVaLKy4bEAAHxHH?format=jpg&name=small"
+      ],
       "thread_count": 5,
       "first_tweet_url_stripped": true,
       "thread_urls": [
@@ -24,7 +33,7 @@
         "https://x.com/shinjaehyun2018/status/2113983781027950806",
         "https://x.com/shinjaehyun2018/status/2113983782625972668"
       ],
-      "dom_readback_excerpt": "외부 클라우드 중계 서버에 내 PC 권한을 맡기지 마세요! ChatGPT와 Claude가 내 Windows PC를 직접 제어하는 100% 자체 호스팅 MCP 서버 Local Commander를 오픈소스로 전격 공개합니다."
+      "dom_readback_excerpt": "[한눈에 보는 Local Commander 3D 아키텍처 요약 카드] 외부 중계 서버 0%, OAuth 2.1 직통 터널, 16개 멀티세션 병렬 실행, 3중 파일 보호막까지! 퇴근 시간을 1시간 앞당기는 나만의 안심 PC AI 비서를 지금 무료로 시작하세요 👉 https://github.com/shinjaehyun20/local-commander"
     },
     "youtube_shorts": {
       "status": "OUTWARD_VERIFIED",
@@ -43,10 +52,19 @@
     "instagram_carousel": {
       "status": "OUTWARD_VERIFIED",
       "account": "@jh_shinz",
-      "shortcode": "De4PmsqkjBQ",
-      "post_url": "https://www.instagram.com/p/De4PmsqkjBQ/",
-      "profile_post_url": "https://www.instagram.com/jh_shinz/p/De4PmsqkjBQ/",
+      "replaced_old_flat_shortcode": "De4PmsqkjBQ",
+      "shortcode": "De4iytEElea",
+      "post_url": "https://www.instagram.com/p/De4iytEElea/",
+      "profile_post_url": "https://www.instagram.com/jh_shinz/p/De4iytEElea/",
       "slides_uploaded": 6,
+      "slide_byte_sizes": [
+        644729,
+        753051,
+        1099886,
+        904733,
+        777336,
+        694303
+      ],
       "aspect_ratio": "4:5 (1080x1350)",
       "caption_verified": true,
       "dom_readback_excerpt": "외부 중계 서버 제로! ChatGPT가 내 Windows PC를 직접 제어하는 Local Commander 오픈소스 전격 공개! 서드파티 SaaS 릴레이 없이 내 PC에서 직접 구동되는 OAuth 2.1 + PKCE 인증과 3중 파일시스템 방어..."

@@ -1,195 +1,244 @@
-<div align="center">
+<p>
+  <img src="assets/readme-hero.svg" alt="Local Commander. ChatGPT. Your Windows PC. Bring your files into the conversation." width="100%" />
+</p>
 
-# Local Commander
+Bring your Windows workspace into ChatGPT with a self-hosted MCP server for files and process tools.
 
-**Self-Hosted Windows MCP Server for Local Files, Job-Object Process Execution & Fixed-Address OAuth 2.1 Relay**
+Windows 10 / 11 · Self-hosted · [MIT](LICENSE)
 
-[![Platform: Windows 10/11](https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D6?style=for-the-badge&logo=windows)](https://github.com/shinjaehyun20/local-commander)
-[![Runtime: Node.js 20+](https://img.shields.io/badge/Node.js-20%2B-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![Protocol: MCP 2025](https://img.shields.io/badge/Protocol-Model%20Context%20Protocol-1D4ED8?style=for-the-badge)](https://modelcontextprotocol.io/)
-[![Auth: OAuth 2.1 + PKCE S256](https://img.shields.io/badge/Auth-OAuth%202.1%20%2B%20PKCE%20S256-047857?style=for-the-badge)](#security--safety-architecture)
-[![Tests: 60 Automated](https://img.shields.io/badge/Tests-49%20Node%20%2B%2011%20Python%20PASS-047857?style=for-the-badge)](#automated-verification-suite)
-[![License: MIT](https://img.shields.io/badge/License-MIT-B45309?style=for-the-badge)](./LICENSE)
-
-<br />
-
-<img src="assets/social-preview-banner.png" alt="Local Commander Hero Overview" width="100%" />
-
-<br />
-
-**Local Commander** is a developer-operated, self-hosted **Model Context Protocol (MCP)** server for Windows 10/11 (`0.x`).  
-It connects local desktop clients (Claude Desktop, Cursor, Windsurf, Codex CLI) via **STDIO** and remote web assistants (ChatGPT Web / Developer Mode MCP Connectors) via a **Fixed HTTPS Edge + Outbound WebSocket Relay** protected by **OAuth 2.1 + PKCE (`S256`)** and **One-Time Local Pairing**.
-
-Includes an interactive and CLI **First-Run Setup Wizard (`npm run setup`)** that generates `config.json`, `startup-config.json`, `%LOCALAPPDATA%\local-commander` state directories, and ready-to-paste client snippets for Claude Desktop, Cursor, and Codex CLI.
-
-[Why Local Commander?](#-why-local-commander) • [Quick Start (`npm run setup`)](#-quick-start-with-setup-wizard) • [3-Tier Architecture](#-3-tier-dual-transport-architecture) • [16 MCP Tools](#-16-mcp-tools--security-matrix) • [Verification & Scope](#-automated-verification-suite--scope-boundaries)
-
-</div>
+[Start with ChatGPT](#start-with-chatgpt) · [Keep control](#start-small-keep-control) · [Technical details](#for-a-closer-look)
 
 ---
 
-## 💡 Why Local Commander?
+## Start with ChatGPT
 
-Running an MCP server that can read/write files and spawn processes on a Windows workstation requires strict operational boundaries—especially when bridging to cloud LLM clients:
+**ChatGPT is in active use with the maintainer's current Windows deployment.**
 
-| Challenge in Typical Local MCP Servers | How **Local Commander** Solves It |
-| :--- | :--- |
-| **Silent Overwrites & Stale Edits** | **`expectedSha256` Optimistic Concurrency** — Every `write_file` (on existing files) and `edit_block` verifies the file's current SHA-256 before mutating a single byte, preserving BOM and UTF-8 / UTF-16LE encodings. |
-| **Symlink / Reparse-Point Jailbreaks** | **Realpath & Junction Escape Prevention** — Paths are resolved against `fs.realpathSync.native` and checked against approved `readRoots` and `writeRoots`. Symlinks or Windows NTFS junctions pointing outside approved roots are rejected. |
-| **Orphaned Background Processes** | **Windows Job Object (`KILL_ON_JOB_CLOSE`)** — Child processes run via `supervise.py` inside a Win32 Job Object (`JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE`), ensuring whole-tree cleanup on timeout or parent termination. |
-| **Ephemeral Tunnel URLs Break OAuth** | **Fixed HTTPS Origin + Outbound WebSocket Relay** — Your Windows PC opens an outbound `wss://` connection to your fixed Cloudflare Worker (`/_relay/connect`) or Named Tunnel so your OAuth callback and `/mcp` URL remain constant across reboots without opening inbound router ports. |
-| **Unauthenticated Remote Endpoints** | **OAuth 2.1 + PKCE (`S256`) + Local Pairing** — Remote `/mcp` access requires OAuth 2.1 Dynamic Client Registration, PKCE `S256`, a locally generated one-time pairing code (`pairing.json`), and explicit scope separation (`desktop.read`, `desktop.write`, `process.execute`). |
-| **Corrupt or Truncated Auth State** | **Atomic Persistence & Corrupt-File Isolation** — `writeSecureJson` writes via a sibling temporary file + atomic rename (`fs.renameSync`), while `readJsonIfExists` distinguishes missing files (`ENOENT`) from corrupt JSON—preserving a `.corrupt-<timestamp>` backup and raising `ERR_CORRUPT_STATE_JSON` instead of silently wiping paired state. |
+<details>
+<summary><strong>ChatGPT</strong> · In active use · Connection overview</summary>
 
-<div align="center">
-  <img src="assets/demo-commander-action.gif" alt="Local Commander Interactive Overview" width="94%" />
-</div>
+### Connect ChatGPT to your Windows workspace
 
----
+ChatGPT uses a fixed HTTPS MCP endpoint. Your Windows PC connects outward through an authenticated relay and handles the file and process tools locally.
 
-## ⚡ Quick Start with Setup Wizard
+### For your own installation
 
-### 1. Prerequisites
-- **OS**: Windows 10 or Windows 11 (x64)
-- **Node.js**: `>= 20.0.0`
-- **Python**: `3.11+` (`python.exe` and `pythonw.exe` for Windows Job Object supervision and optional login recovery)
+Prepare a Windows server, a compatible fixed HTTPS relay, and authentication and pairing for your ChatGPT connection. The current deployment uses a **CommanderSocketRelay v1** service with an outbound WebSocket connection from the PC.
+
+This repository includes the WebSocket **client** for that existing relay. The included `relay-worker.mjs` implements a separate HTTP upstream relay; it does not provide the WebSocket relay service. The setup wizard creates local configuration, but does not deploy a relay or complete ChatGPT authentication.
+
+See [Architecture and connection requirements](#architecture-and-connection-requirements) for the components and connection paths.
+
+### Start with a read request
+
+Once your connection is available, ask ChatGPT:
+
+> Use Local Commander to show the files and folders in my configured workspace.
+
+Check the returned folder path and file list. An empty folder may return an empty list.
+
+</details>
+
+<details>
+<summary><strong>Other MCP clients</strong> · Configuration examples · Connection untested</summary>
+
+The wizard provides templates for **Claude Desktop, Cursor, and Codex CLI**. Connections and tool execution in these apps have not been verified. These examples use the local STDIO server.
+
+### Prepare a new local installation
+
+Requirements: Windows 10 or 11, Git, Node.js 20 or later, and Python 3.11 or later for process supervision and optional login recovery.
 
 ```powershell
 git clone https://github.com/shinjaehyun20/local-commander.git
 cd local-commander
 npm ci --ignore-scripts
+npm run setup -- --print-clients
 ```
 
-### 2. Run the Interactive Setup Wizard (`npm run setup`)
-The built-in setup wizard validates your `readRoots`, `writeRoots`, and `allowedExecutables`, derives a deterministic 12-character hex `workspaceId`, initializes the state directory (`%LOCALAPPDATA%\local-commander`), and outputs ready-to-paste MCP client snippets:
+Choose a folder to read. For a first connection, leave write access and shell execution disabled, and choose `local` deployment mode. The wizard writes `config.json` and prints the client snippets in your terminal.
 
-```powershell
-# Interactive mode (prompts for roots, tunnel mode, and remote write policy)
-npm run setup
+The snippets contain the absolute paths for your checkout. Use those generated paths in the examples below, and keep any existing servers in your client configuration. Review an existing `config.json` before re-running the wizard: it writes a new configuration and does not preserve every previous option.
 
-# Or non-interactive CLI mode:
-node setup-wizard.mjs --non-interactive `
-  --read-roots "C:\Projects,D:\Docs" `
-  --write-roots "C:\Projects" `
-  --tunnel-mode none
+### Claude Desktop · Connection untested
+
+Merge the generated `local-commander` entry into the `mcpServers` object in `%APPDATA%\Claude\claude_desktop_config.json`, then quit and reopen Claude Desktop.
+
+```json
+{
+  "mcpServers": {
+    "local-commander": {
+      "command": "node",
+      "args": ["C:/path/to/local-commander/server.mjs", "--config", "C:/path/to/local-commander/config.json"]
+    }
+  }
+}
 ```
 
-This creates:
-- `config.json` (your local MCP server configuration, untracked by Git)
-- `startup-config.json` (your Windows watchdog configuration, untracked by Git)
-- `%LOCALAPPDATA%\local-commander\client-snippets.json` (ready-to-copy snippets for **Claude Desktop**, **Cursor**, and **Codex CLI**)
+[Local MCP server configuration guide](https://modelcontextprotocol.io/docs/develop/connect-local-servers)
 
----
+### Cursor · Connection untested
 
-## 🏛️ 3-Tier Dual-Transport Architecture
+Merge the entry into `~/.cursor/mcp.json` for your user, or `.cursor/mcp.json` inside the project. The example below adds an explicit `stdio` type to the wizard's command and arguments.
 
-Local Commander separates **Transport**, **Authentication**, and **Execution** into audited modules with zero external database dependencies:
+```json
+{
+  "mcpServers": {
+    "local-commander": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["C:/path/to/local-commander/server.mjs", "--config", "C:/path/to/local-commander/config.json"]
+    }
+  }
+}
+```
 
-<div align="center">
-  <img src="assets/demo-architecture.png" alt="Local Commander 3-Tier Architecture" width="100%" />
-</div>
+[Cursor MCP configuration guide](https://cursor.com/docs/mcp#configuration-locations)
 
-### Transport Modes
-1. **Mode A — Local STDIO (`server.mjs`)**
-   - Zero network listeners. Communicates over standard input/output for local desktop MCP hosts (`Claude Desktop`, `Cursor`, `Windsurf`, `Codex CLI`).
-2. **Mode B — Local Read-Only Loopback HTTP (`server.mjs --http`)**
-   - Binds strictly to `127.0.0.1` (`port 48780` by default), requires a $\ge 32$-character constant-time compared Bearer token (`tokenFile`), validates `Origin`, and enforces `readOnly: true` (exposing only the 10 read/search/inspect tools).
-3. **Mode C — Authenticated Remote OAuth 2.1 + Fixed Edge Relay (`launch.mjs --socket`)**
-   - Local Express + `StreamableHTTPServerTransport` binds to `127.0.0.1:48781`.
-   - `relay-socket-client.mjs` maintains an authenticated outbound `wss://` connection to your fixed HTTPS relay (`/_relay/connect`) with 15s application heartbeats, bounded 2 MB request / 4 MB response buffers, header/cookie stripping, and automatic reconnect backoff.
-   - Transport-level forwarding never auto-retries failed mutating HTTP requests over the relay socket. (End-to-end idempotency across client-initiated retries after a dropped response is governed by `expectedSha256` on file writes/edits.)
+### Codex CLI · Connection untested
 
----
+Add the generated TOML section to the active Codex configuration, normally `~/.codex/config.toml`.
 
-## 🛠️ 16 MCP Tools & Security Matrix
+```toml
+[mcp_servers.local-commander]
+command = "node"
+args = ["C:/path/to/local-commander/server.mjs", "--config", "C:/path/to/local-commander/config.json"]
+```
 
-All 16 tools return structured JSON responses and annotate their MCP capability hints (`readOnlyHint`, `destructiveHint`, `openWorldHint`, `idempotentHint`). When `readOnly` mode is active (`allowRemoteWrites: false` or `--http`), the 6 mutating/process tools are omitted from the server catalog.
+[Codex MCP configuration guide](https://developers.openai.com/codex/mcp)
 
-<div align="center">
-  <img src="assets/demo-security-matrix.png" alt="Local Commander 16 MCP Tools & Security Matrix" width="100%" />
-</div>
+### Check the connection in your chosen app
 
-### Read-Only & Diagnostic Tools (`desktop.read` — 10 Tools)
-| Tool Name | Purpose | Safety & Bounding |
+After the app loads the server, use the read request above and inspect the actual tool response. A generated configuration or a visible server entry alone does not verify a successful tool call.
+
+</details>
+
+## Start small. Keep control.
+
+Read first. Add editing or process execution when your workflow needs it.
+
+| Choose the folders | Make deliberate edits | Run on your Windows PC |
 | :--- | :--- | :--- |
-| `get_config` | Inspect allowed `readRoots`, `writeRoots`, `allowedExecutables`, and `toolAvailability` catalog hash (`catalogSha256`). | Read-only; exposes policy metadata without secrets. |
-| `get_usage_stats` | Read tool call counters, active process-session count, and service start timestamp. | Read-only telemetry in memory. |
-| `get_recent_tool_calls` | Inspect bounded recent audit events (`maxResults`). | Redacts file contents, command arguments, and credentials. |
-| `list_directory` | List files and subdirectories inside an approved root with `offset` and `length` paging. | Enforces `readRoots` realpath containment. |
-| `read_file` | Read a text file with line-range paging (`offset`, `length`), detected encoding, and `sha256`. | Rejects binary files (`\0` check) and files over `maxReadBytes`. |
-| `read_multiple_files` | Batch-read up to 20 approved text files in one call, returning per-file `sha256` or isolated error. | Bounded to 20 files; per-file realpath validation. |
-| `get_file_info` | Retrieve size, creation/modification timestamps, line count, and `sha256` for a path. | Enforces `readRoots` realpath containment. |
-| `start_search` | Search file names (`files`) or text contents (`content`) under an approved root. | Bounded by `maxSearchResults`; reports truncation cleanly. |
-| `read_process_output` | Read buffered `stdout`/`stderr`, running status, and final `exitCode` for an owned `sessionId`. | Does not start or mutate processes. |
-| `list_sessions` | List all process sessions owned by this Commander instance and their lifecycle states. | Scoped strictly to Commander-spawned sessions. |
+| File tools use the folders configured for reading and writing. | Existing-file writes check the expected file hash before changing the file. | Your Windows server handles tools locally. An authenticated relay connects it to ChatGPT. |
 
-### Mutating File Tools (`desktop.write` — 3 Tools)
-| Tool Name | Purpose | Safety & Bounding |
+## For a closer look
+
+Inspect the implementation, setup options, and current verification results.
+
+<a id="architecture-and-connection-requirements"></a>
+
+<details>
+<summary><strong>Architecture and connection requirements</strong></summary>
+
+### Connection paths
+
+| Path | Entry point | Requirements and behavior |
 | :--- | :--- | :--- |
-| `write_file` | Create, rewrite, or append text files inside `writeRoots`. | Existing files **require** `expectedSha256`; blocks Office/PDF binary extensions (`.xlsx`, `.docx`, `.pptx`, `.hwpx`, `.hwp`, `.pdf`, `.zip`, `.exe`, `.dll`). |
-| `edit_block` | Replace exactly one matching `oldText` block with `newText` while preserving encoding & BOM. | Requires `expectedSha256` and **exactly 1** occurrence of `oldText`. |
-| `create_directory` | Create a new directory (and parents) inside `writeRoots`. | Does not delete or overwrite existing directories. |
+| Local STDIO | `node server.mjs --config config.json` | A local client starts the Node process. File access follows the configured roots; `allowShell` controls process creation. |
+| Local read-only HTTP | `node server.mjs --config config.json --http` | Binds to `127.0.0.1` on port `48780` by default. Requires a `tokenFile` containing a bearer token of at least 32 characters. The MCP endpoint exposes read tools and validates a supplied browser Origin. |
+| Remote OAuth server | `remote.mjs` | Binds to loopback, serves the OAuth flow and authenticated `/mcp`, and checks `desktop.read`, `desktop.write`, or `process.execute` for tool calls. A separate transport must make the endpoint reachable. |
+| Fixed WebSocket relay | `launch.mjs --socket` → `launch-socket.mjs` | Connects outward to an existing compatible CommanderSocketRelay v1 service at `/_relay/connect`. Requires a fixed HTTPS origin, matching relay secret, and deployment-specific authentication and pairing. |
+| HTTP upstream relay / named tunnel | `launch.mjs`, `relay-worker.mjs`, `tunnel-config.mjs` | A separate transport path using `cloudflared`. The included Worker accepts upstream registration at `/_relay/register`; it is not the WebSocket relay service. |
 
-### Process Execution Tools (`process.execute` — 3 Tools)
-| Tool Name | Purpose | Safety & Bounding |
-| :--- | :--- | :--- |
-| `start_process` | Launch an approved executable (`allowedExecutables`) with explicit `args` array and approved `cwd`. | Supervised by `supervise.py` inside a Windows Job Object; enforces `timeoutMs` and `maxProcessOutputBytes`. |
-| `interact_with_process` | Write UTF-8 input to `stdin` of a running Commander-owned `sessionId`. | Scoped strictly to active owned sessions. |
-| `force_terminate` | Terminate a Commander-owned `sessionId` and its descendant process tree. | Never accepts arbitrary system PIDs. |
+The socket launcher restores the remote server and relay connection without creating a first-time pairing code. The standalone remote entry point and the non-socket launcher create pairing codes. Provisioning a new remote deployment therefore requires a pairing path as well as the relay configuration; the desktop-client snippets do not configure ChatGPT.
 
----
+Source: [server](server.mjs), [remote authentication](remote.mjs), [socket launcher](launch-socket.mjs), [WebSocket client](relay-socket-client.mjs), [HTTP relay Worker](relay-worker.mjs), [tunnel configuration](tunnel-config.mjs).
 
-## 📂 State Directory & File Layout
+### File and process boundaries
 
-Local Commander strictly separates **tracked source code** (this repository) from **untracked runtime state** on disk:
+- File paths are resolved and checked against `readRoots` and `writeRoots`, including resolved symlink or junction targets.
+- `write_file` requires the current `expectedSha256` when a file already exists. `edit_block` requires the hash and exactly one matching text block. These are stale-content checks, not exclusive file locks.
+- Process execution runs with the Windows user's permissions. The file-tool roots are **not an operating-system sandbox** for launched programs. The current configuration has an `allowShell` switch, not an executable allowlist.
+- Windows process supervision uses `supervise.py` and a Job Object for owned process cleanup. Session tools operate on Commander-owned sessions.
+- Remote file changes require `allowRemoteWrites`, the relevant OAuth scope, and an allowed write root. Remote process creation requires `allowRemoteWrites`, `allowShell`, `process.execute`, and a working directory within a readable root.
+- Authentication state uses atomic JSON writes. Corrupt state is preserved as a backup and raises an error instead of being silently reset.
 
-- **Default State Directory (`getStateDir()` in `vendor-auth/config/paths.js` and `STATE` in `startup.py`)**:
-  - `%LOCALAPPDATA%\local-commander`
-  - Override for custom deployments or isolated tests via the environment variable `LOCAL_COMMANDER_STATE`.
-- **Files stored inside the State Directory (`%LOCALAPPDATA%\local-commander`)**:
-  - `auth/<workspaceId>.json` — OAuth 2.1 registered clients and hashed token records (written atomically via temp file + rename; corrupt JSON is backed up to `.corrupt-<timestamp>` and raises `ERR_CORRUPT_STATE_JSON`).
-  - `runtime.json` — Active service PID, port, `workspaceId`, and `connectionState` (`starting` / `ready` / `disconnected`).
-  - `pairing.json` — One-time pairing PIN (`code`) and verification URL for connecting a new OAuth client.
-  - `client-snippets.json` — Generated by `npm run setup` for quick desktop client configuration.
-  - `startup-status.json`, `service.out.log`, `service.err.log` — Watchdog health receipts and supervisor logs.
+Source: [file and process core](core.mjs), [process supervision](supervise.py), [remote scope checks](remote.mjs), [state persistence](vendor-auth/config/paths.js). See [SECURITY.md](SECURITY.md) for security reporting.
 
----
+</details>
 
-## 🧪 Automated Verification Suite & Scope Boundaries
+<details>
+<summary><strong>Setup options and generated configuration</strong></summary>
 
-Run the complete **60-test verification suite** (`49 Node.js tests + 11 Python tests`) locally on Windows:
+### A first local read configuration
+
+For a new checkout, the non-interactive equivalent of the read-first setup is:
 
 ```powershell
-# 1. Run all 49 Node.js unit, integration, OAuth, setup-wizard, WebSocket reconnect & manifest tests
-npm test
+node setup-wizard.mjs --non-interactive --read-root "C:\Projects" --mode local --print-clients
+```
 
-# 2. Run all 11 Python recovery, PID identity, conflict guard & supervised restart tests
+Repeat `--read-root` for additional folders. Add a `--write-root` only when you intend to permit file changes in that folder.
+
+| Option | Purpose |
+| :--- | :--- |
+| `--config <path>` | Choose the output configuration file. Defaults to `config.json` next to the wizard. |
+| `--read-root <folder>` | Add a readable folder. Repeat for multiple folders. |
+| `--write-root <folder>` | Add a writable folder within a readable root. The default list is empty. |
+| `--allow-shell` | Enable process creation. Disabled by default. |
+| `--allow-remote-writes` | Allow the remote catalog to expose file mutation and process tools. Disabled by default; OAuth scopes and core policy still apply. |
+| `--python <executable>` | Select the Python executable for supervision. |
+| `--mode local\|quick\|relay` | Select local configuration, a quick tunnel, or fixed WebSocket relay configuration. Relay mode also needs `--public-url <https-origin>`. |
+| `--write-startup-config` | Generate optional `startup-config.json` for login recovery configuration. |
+| `--print-clients` | Print the Claude Desktop / Cursor JSON and Codex CLI TOML examples. Interactive setup also prints them. |
+
+The wizard writes `config.json`, creates missing selected root folders, and derives a workspace identity for a new configuration. In relay mode it also creates or reuses a relay secret. It does not start the server, install a login task, provision the external relay, or register a client connection.
+
+### Generated files and runtime state
+
+| File or location | When it is used |
+| :--- | :--- |
+| `config.json` | Written by the setup wizard. Review it before connecting a client. |
+| `startup-config.json` | Written only when optional startup configuration is selected. |
+| Terminal output | Contains desktop-client snippets. The wizard does not save a `client-snippets.json` file. |
+| `%LOCALAPPDATA%\local-commander` | Default Windows runtime state directory; `LOCAL_COMMANDER_STATE` can override it. |
+| `auth/<workspaceId>.json` | Persisted OAuth registration and token records. |
+| `runtime.json` | Service identity and connection state recorded by launchers. |
+| `pairing.json` | One-time pairing information written by pairing-capable entry points. |
+| `relay.secret` | Local shared-secret file created or reused by relay setup. |
+
+Source: [setup wizard](setup-wizard.mjs), [state paths](vendor-auth/config/paths.js), [startup recovery](startup.py), [startup task installer](install-startup.ps1).
+
+</details>
+
+<details>
+<summary><strong>Tools, tests, and current CI</strong></summary>
+
+### Tool catalog
+
+The full server catalog defines 16 tools. The read-only HTTP transport and the remote server with `allowRemoteWrites: false` expose the 10 read and diagnostic tools. A client controls which server tools it makes available in a conversation; the server catalog alone does not verify client exposure.
+
+| Group | Tools | Purpose |
+| :--- | :--- | :--- |
+| Configuration and diagnostics | `get_config`, `get_usage_stats`, `get_recent_tool_calls` | Inspect policy and catalog information, counters, and bounded recent events. |
+| File reading and search | `list_directory`, `read_file`, `read_multiple_files`, `get_file_info`, `start_search` | List, read, inspect, and search within readable roots. Text reads return content hashes; `get_file_info` returns path, size, type, and modification time. |
+| Session inspection | `read_process_output`, `list_sessions` | Inspect output and lifecycle state for Commander-owned sessions. |
+| File changes | `write_file`, `edit_block`, `create_directory` | Write text, replace an exact block, or create a folder within writable roots. |
+| Process control | `start_process`, `interact_with_process`, `force_terminate` | Start a program, send input, or terminate an owned session. |
+
+See the [tool definitions](server.mjs) and [implementation](core.mjs) for exact inputs, limits, and policy checks.
+
+### Verification
+
+[View current main CI results](https://github.com/shinjaehyun20/local-commander/actions/workflows/ci.yml?query=branch%3Amain) · [Browse test source](tests) · [Workflow](.github/workflows/ci.yml)
+
+The repository contains tests for file and process behavior, tool contracts, OAuth, state persistence, relay transports, setup, source-manifest integrity, and startup recovery. Test source describes intended coverage; the linked workflow runs show the actual result for each commit.
+
+On Windows, after installing dependencies, run the Node suite with explicit file discovery and the Python suite with your Python 3.11 installation:
+
+```powershell
+$testFiles = (Get-ChildItem -Path tests -Filter *.test.mjs -File).FullName
+node --test $testFiles
 py -3.11 tests/startup_test.py
 ```
 
-Every push and pull request on `main`/`master` is automatically verified on `windows-latest` via [`.github/workflows/ci.yml`](./.github/workflows/ci.yml).
+The current `npm test` script passes `tests/*.test.mjs` directly to Node. The Windows CI job using Node 20 has failed during test-file discovery; [PR #1](https://github.com/shinjaehyun20/local-commander/pull/1) tracks that separate correction. The explicit discovery command above avoids that glob issue and does not imply the tests all pass.
 
-### What the 60 Automated Tests Verify
-| Test File | Count | Verified Behaviors |
-| :--- | :---: | :--- |
-| `tests/core.test.mjs` | **11** | Allowed root validation, read/write separation, symlink & NTFS junction escape blocking, `expectedSha256` optimistic concurrency, binary extension guard, UTF-16LE preservation, process timeout & descendant tree kill. |
-| `tests/server.test.mjs` | **3** | STDIO & loopback HTTP MCP transport, Bearer token guard, read-only mode catalog filtering. |
-| `tests/tool-catalog.test.mjs` | **4** | 16-tool schema stability, capability annotations, `get_config.toolAvailability` SHA-256 verification. |
-| `tests/remote.test.mjs` | **10** | OAuth 2.1 metadata discovery, Dynamic Client Registration, PKCE `S256` verification, pairing code consumption, scope enforcement (`403 insufficient_scope`), refresh token rotation & reuse detection, **corrupt auth JSON preservation (`ERR_CORRUPT_STATE_JSON` + `.corrupt-*` backup)**, and **atomic JSON write without leftover `.tmp-*` files**. |
-| `tests/tunnel.test.mjs` | **5** | Quick, Named, and Relay tunnel config validation and secret redaction. |
-| `tests/relay.test.mjs` | **7** | Fixed HTTPS relay upstream registration, path & credential validation. |
-| `tests/relay-socket-client.test.mjs` | **5** | WebSocket relay route/header/body validation, cookie stripping, OAuth preservation, **live WebSocket disconnect & automatic reconnect on a new session**, and **reconnect retry exhaustion (`failed` state transition after 4 attempts)**. |
-| `tests/setup-wizard.test.mjs` | **3** | End-to-end `runSetupWizard` config generation (`config.json`, `startup-config.json`, `client-snippets.json`), existing config overwrite protection, and validation of missing roots. |
-| `tests/manifest.test.mjs` | **1** | Verifies that every file listed in `SOURCE_MANIFEST.json` exists and matches its recorded SHA-256 digest (`35/35 files`). |
-| `tests/startup_test.py` | **11** | Missing/reused/unrelated PID detection, Windows path normalization, byte-exact `.stale-*` archiving, port-conflict preservation, live unhealthy owner protection, and **supervised WebSocket service restart via `supervise.py`**. |
+[SOURCE_MANIFEST.json](SOURCE_MANIFEST.json) records source and test hashes, checked by [the manifest test](tests/manifest.test.mjs). App-level connections, a newly provisioned external relay, and physical Windows reboot or login cycles require their own verification.
 
-### Explicit Scope Boundaries
-To keep operational expectations accurate:
-- **Verified by Automated Tests**: MCP tool contracts, path/junction containment, `expectedSha256` file locks, Win32 Job Object child cleanup, OAuth 2.1 + PKCE + refresh rotation, corrupt state file preservation & atomic writes, Setup Wizard generation, WebSocket relay disconnect/reconnect & retry exhaustion, and `startup.py` PID inspection + supervised launch dispatch.
-- **Host / Environment Level (Not Simulated in CI)**: Actual Windows interactive user logout/login transitions, physical machine reboot cycles, and provisioning an external Cloudflare account/Worker on a separate PC require host-level setup by the developer.
+</details>
 
 ---
 
-## 📄 License
+[Source code](https://github.com/shinjaehyun20/local-commander) · [MIT License](LICENSE) · [Third-party notices](THIRD_PARTY_NOTICES.md)
 
-Released under the [MIT License](./LICENSE). See [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md) for upstream attributions.
+Local Commander · A self-hosted Windows MCP server.

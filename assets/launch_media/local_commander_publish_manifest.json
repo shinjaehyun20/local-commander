@@ -1,0 +1,46 @@
+{
+  "schema_version": "2.0-antigravity-commercial-v2",
+  "date": "2026-10-24",
+  "product": "Local Commander v1.0.0",
+  "repository": "https://github.com/shinjaehyun20/local-commander",
+  "architecture": "3-Layer Hybrid Product Commercial (Veo 3.1 9:16 + 60fps RGBA UI/Terminal Overlay + Lyria 2 -12dB Sidechain Ducking)",
+  "assets": {
+    "shorts_reels_mp4": "D:\\workspace\\projects\\active\\local-commander\\assets\\launch_media\\local_commander_shorts.mp4",
+    "shorts_thumbnail_png": "D:\\workspace\\projects\\active\\local-commander\\assets\\launch_media\\local_commander_shorts_thumbnail.png",
+    "instagram_carousel_pdf": "D:\\workspace\\projects\\active\\local-commander\\assets\\launch_media\\local_commander_carousel_6slides.pdf",
+    "instagram_carousel_pngs": [
+      "D:\\workspace\\projects\\active\\local-commander\\assets\\launch_media\\local_commander_carousel_slide_1.png",
+      "D:\\workspace\\projects\\active\\local-commander\\assets\\launch_media\\local_commander_carousel_slide_2.png",
+      "D:\\workspace\\projects\\active\\local-commander\\assets\\launch_media\\local_commander_carousel_slide_3.png",
+      "D:\\workspace\\projects\\active\\local-commander\\assets\\launch_media\\local_commander_carousel_slide_4.png",
+      "D:\\workspace\\projects\\active\\local-commander\\assets\\launch_media\\local_commander_carousel_slide_5.png",
+      "D:\\workspace\\projects\\active\\local-commander\\assets\\launch_media\\local_commander_carousel_slide_6.png"
+    ]
+  },
+  "algorithm_guardrails": {
+    "x_first_tweet_url_stripped": true,
+    "youtube_title_selected": "ChatGPT가 내 Windows PC를 직접 제어한다? Local Commander 오픈소스 공개 #shorts",
+    "youtube_title_ab_candidates": {
+      "option_a_curiosity": "ChatGPT가 내 Windows PC를 직접 제어한다? Local Commander 오픈소스 공개 #shorts",
+      "option_b_metric": "외부 릴레이 0개! 16세션 동시 제어 Local Commander Windows MCP 서버 #shorts",
+      "option_c_trend": "OAuth 2.1 + 3중 보안 샌드박스 갖춘 Windows 로컬 MCP 서버 무료 공개 #shorts"
+    },
+    "auto_pinned_comment": "[오픈소스 무료 공개] 외부 중계 서버 없이 내 Windows PC를 직접 제어하는 Local Commander GitHub 저장소:\nhttps://github.com/shinjaehyun20/local-commander\n\nOAuth 2.1 + PKCE 자체 인증, readRoots/writeRoots 샌드박스 분리, expectedSha256 해시 검증, 그리고 16개 멀티세션 동시성까지 총 60개 자동화 테스트를 통과한 정본 코드입니다.\n여러분이 로컬 PC 에이전트로 가장 먼저 자동화하고 싶은 작업은 무엇인가요? 댓글로 남겨주세요!",
+    "thumbnail_scene_num": 1,
+    "thumbnail_timestamp_sec": 2.0,
+    "instagram_reels_trending_audio_mix": "Original 100% + Trending Audio 3%"
+  },
+  "copy_payload": {
+    "x_thread": [
+      "외부 클라우드 중계 서버에 내 PC 권한을 맡기지 마세요! ChatGPT와 Claude가 내 Windows PC를 직접 제어하는 100% 자체 호스팅 MCP 서버 Local Commander를 오픈소스로 전격 공개합니다. 보안과 동시성을 모두 잡은 6가지 핵심 설계를 정리합니다.",
+      "1/ [데이터 주권 100% 확보] 서드파티 SaaS 릴레이 없이 내 PC에서 OAuth 2.1 + PKCE 자체 인증과 고정 HTTPS/WSS 터널을 직접 구동합니다. 외부 유출 걱정 없이 안전하게 연결하세요. https://github.com/shinjaehyun20/local-commander",
+      "2/ [3중 파일시스템 방어] readRoots(읽기 전용)와 writeRoots(쓰기 허용) 샌드박스를 엄격히 분리하고, 파일 수정 시 expectedSha256 해시 일치 검증을 강제해 AI의 실수로 인한 덮어쓰기 사고를 원천 차단합니다.",
+      "3/ [멀티세션 동시성 혁신] 동시 프로세스 세션을 16개로 확장하고, readOnlyHint 도구는 승인 없이 무중단 자동 실행되며, append 모드는 해시 락을 면제해 다중 에이전트가 동시에 로그를 기록해도 충돌하지 않습니다.",
+      "4/ [프로세스 트리 감독 & 60개 테스트 검증] Windows Job Object 기반 supervise.py로 좀비 하위 프로세스를 차단하고 MSIX 클로드 경로를 자동 탐지합니다. Node 49개+Python 11개 총 60개 테스트를 통과한 MIT 오픈소스를 지금 북마크와 RT로 저장해 두세요!"
+    ],
+    "youtube_title": "ChatGPT가 내 Windows PC를 직접 제어한다? Local Commander 오픈소스 공개 #shorts",
+    "youtube_description": "외부 서드파티 클라우드 중계 서버 없이 ChatGPT와 Claude가 내 Windows PC를 안전하게 직접 제어하는 100% 자체 호스팅 Windows MCP 서버 Local Commander를 MIT 오픈소스로 공개합니다!\n\n핵심 아키텍처 및 보안 혁신:\n1. 외부 클라우드 중계 서버 Zero: 100% 자체 호스팅 Windows MCP 서버 직접 연결\n2. OAuth 2.1 + PKCE 자체 인증 & 고정 HTTPS/WSS 터널로 데이터 주권 100% 확보\n3. readRoots / writeRoots 분리 + expectedSha256 해시 일치 검증으로 덮어쓰기 사고 원천 차단\n4. 동시 프로세스 세션 16개 확장, readOnlyHint 무중단 실행 및 append 해시 락 면제\n5. Windows Job Object 기반 supervise.py 좀비 프로세스 차단 & MSIX 클로드 경로 자동 탐지\n6. Node 49개 + Python 11개 총 60개 자동화 테스트 및 SOURCE_MANIFEST 해시 검증 완료\n\nGitHub 오픈소스 저장소: https://github.com/shinjaehyun20/local-commander\n\n#LocalCommander #MCP #ChatGPT #Claude #Windows자동화 #오픈소스 #AI에이전트 #개발자 #쇼츠 #shorts",
+    "pinned_comment": "[오픈소스 무료 공개] 외부 중계 서버 없이 내 Windows PC를 직접 제어하는 Local Commander GitHub 저장소:\nhttps://github.com/shinjaehyun20/local-commander\n\nOAuth 2.1 + PKCE 자체 인증, readRoots/writeRoots 샌드박스 분리, expectedSha256 해시 검증, 그리고 16개 멀티세션 동시성까지 총 60개 자동화 테스트를 통과한 정본 코드입니다.\n여러분이 로컬 PC 에이전트로 가장 먼저 자동화하고 싶은 작업은 무엇인가요? 댓글로 남겨주세요!",
+    "insta_caption": "외부 중계 서버 제로! ChatGPT가 내 Windows PC를 직접 제어하는 Local Commander 오픈소스 전격 공개!\n\n서드파티 SaaS 릴레이 없이 내 PC에서 직접 구동되는 OAuth 2.1 + PKCE 인증과 3중 파일시스템 방어(readRoots/writeRoots 분리 + expectedSha256 해시 검증), 16개 동시 프로세스 세션과 Windows Job Object 기반 프로세스 트리 감독까지 완벽히 갖춘 Windows MCP 서버입니다.\n\nNode 49개 + Python 11개 총 60개 자동화 테스트를 통과한 MIT 오픈소스 코드를 GitHub(shinjaehyun20/local-commander)에서 지금 바로 만나보세요! 나중에 세팅할 때 보려면 [저장] 필수!\n\n#LocalCommander #MCP서버 #ChatGPT #ClaudeDesktop #윈도우자동화 #오픈소스 #AI에이전트 #개발자그램 #보안아키텍처 #코딩 #테크인사이더 #릴스"
+  }
+}

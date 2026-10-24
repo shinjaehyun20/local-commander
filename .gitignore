@@ -172,3 +172,4 @@ __pycache__/
 **/*-status.json
 /server.before-*.mjs
 /server.catalog-*.mjs
+assets/launch_media/*.mp4

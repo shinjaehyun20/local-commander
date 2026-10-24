@@ -1,0 +1,277 @@
+{
+  "project_meta": {
+    "campaign_id": "local-commander-v1-product-commercial",
+    "product_name": "Local Commander (local-commander)",
+    "repo_url": "https://github.com/shinjaehyun20/local-commander",
+    "style_benchmark": [
+      "Linear Launch Film",
+      "Cursor Product Teaser",
+      "Raycast Speed Demo",
+      "Warp Terminal Reel"
+    ],
+    "resolution": "1080x1920",
+    "fps": 60,
+    "total_duration_sec": 42,
+    "architecture_locks": {
+      "max_concurrent_sessions": 16,
+      "read_only_instant_exec": "readOnlyHint: true (Zero Confirmation Prompt Fatigue)",
+      "append_lock_exemption": "Lock-free concurrent log/stream append",
+      "integrity_guard": "expectedSha256 deterministic hash verification before write/edit",
+      "privacy_model": "100% Self-Hosted Zero Third-Party Relay"
+    },
+    "strict_render_policy": {
+      "forbid_static_pil_cards": true,
+      "forbid_sinewave_bgm_fallback": true,
+      "require_veo_3_1_cloud_video": true,
+      "require_60fps_ui_overlay": true
+    }
+  },
+  "audio_master_spec": {
+    "lyria_model": "lyria-002",
+    "lyria_bgm_prompt": "Modern dark minimal tech product launch soundtrack in the style of Linear and Apple M4 commercials, 140 BPM, deep sub-bass pulse, crisp analog modular synth arpeggio, tension riser from 0.0s to 3.5s, explosive clean beat drop at 3.8s, futuristic precision percussion, high dynamic range, studio mastered",
+    "tts_engine": {
+      "provider": "gemini-2.5-flash-preview-tts",
+      "voice_name": "Charon",
+      "speaking_rate": 1.12,
+      "tone": "Confident, crisp, fast-paced Apple/Linear keynote narrator",
+      "sidechain_ducking_db": -12.0,
+      "attack_ms": 35,
+      "release_ms": 280
+    }
+  },
+  "scenes": [
+    {
+      "scene_id": 1,
+      "time_range": "00:00.0 - 00:04.0",
+      "duration_sec": 4,
+      "phase": "HOOK_PATTERN_INTERRUPT",
+      "veo_prompt": "Cinematic 3D product commercial, 9:16 vertical, dark obsidian glass environment. Red warning holographic popups cluttering a sleek developer workstation in slow motion, then shattered instantly by a razor-sharp emerald laser pulse radiating from a metallic Windows 11 core. Hyper-detailed reflections, Unreal Engine 5 octane render, 60fps smooth motion, text-free background.",
+      "ui_motion_spec": {
+        "layer_type": "glitch_shatter_to_clean_hud",
+        "elements": [
+          {
+            "t_start": 0.2,
+            "t_end": 3.2,
+            "component": "stacking_warning_modals",
+            "visual": "3 red translucent modals ('Relay Server Logging...', 'Approve Read #14?', 'Session Dropped') stacking with 12ms micro-shake"
+          },
+          {
+            "t_start": 3.3,
+            "t_end": 4.0,
+            "component": "emerald_shockwave_clear",
+            "visual": "Modals dissolve into emerald particles, revealing a razor-clean Local Commander HUD badge: [ZERO-RELAY : ONLINE]"
+          }
+        ]
+      },
+      "kinetic_typography": {
+        "line_1": "남의 중계 서버에",
+        "line_2": "내 코드를 맡기시나요?",
+        "accent_word": "내 코드",
+        "accent_color": "#10B981",
+        "font_spec": "Pretendard ExtraBold 72pt, tracking -0.03em, pure white #FFFFFF with #10B981 accent on '내 코드'",
+        "animation": "Springphysics word-by-word slam (stiffness: 380, damping: 24), 70% negative space preserved"
+      },
+      "narration_ko": "아직도 외부 중계 서버에 내 소스코드를 통과시키고, 매번 읽기 승인 버튼을 누르시나요?",
+      "lyria_bgm_and_sfx": {
+        "bgm_cue": "0.0s~3.4s High-tension sub-bass riser -> 3.5s 100ms silence gap -> 3.6s Heavy crisp beat drop",
+        "sfx_cues": [
+          {"t": 0.4, "sfx": "low_digital_alarm_pulse.wav"},
+          {"t": 3.5, "sfx": "glass_shatter_into_deep_sub_drop.wav"}
+        ]
+      }
+    },
+    {
+      "scene_id": 2,
+      "time_range": "00:04.0 - 00:11.0",
+      "duration_sec": 7,
+      "phase": "ZERO_RELAY_AND_INSTANT_READ",
+      "veo_prompt": "Cinematic 3D macro shot, 9:16 vertical, Linear and Vercel design aesthetic. A direct fiber-optic bridge of glowing cyan and emerald light connecting an AI neural prism straight into a local Windows 11 NVMe storage vault, bypassing dark cloud silhouettes in the background. Ultra-clean dark slate lighting, shallow depth of field, smooth camera push-in.",
+      "ui_motion_spec": {
+        "layer_type": "live_mcp_badge_and_instant_read",
+        "elements": [
+          {
+            "t_start": 4.2,
+            "t_end": 7.5,
+            "component": "mcp_tool_call_pill",
+            "visual": "Floating dark glass pill animates in: `read_multiple_files` -> Badge lights up `[readOnlyHint: true • INSTANT 14ms]` with zero confirmation popup"
+          },
+          {
+            "t_start": 7.6,
+            "t_end": 11.0,
+            "component": "direct_tunnel_status",
+            "visual": "Live route indicator: `ChatGPT / Claude` ⇄ `127.0.0.1:48781 (0% 3rd-Party Relay)`"
+          }
+        ]
+      },
+      "kinetic_typography": {
+        "line_1": "중계 서버 0%. 직통 연결.",
+        "line_2": "readOnlyHint 즉시 실행",
+        "accent_word": "readOnlyHint",
+        "accent_color": "#10B981",
+        "font_spec": "Inter / Pretendard Bold 64pt, top-left minimal anchor, #10B981 badge highlight",
+        "animation": "Slide-up 18px with motion blur fade-in synced to 140 BPM snare"
+      },
+      "narration_ko": "Local Commander는 제3자 중계 서버 없이 내 Windows PC를 ChatGPT와 Claude에 직통 연결합니다. 읽기 전용 도구는 확인 팝업 없이 즉시 실행됩니다.",
+      "lyria_bgm_and_sfx": {
+        "bgm_cue": "Driving 140 BPM modular synth groove with crisp hi-hats",
+        "sfx_cues": [
+          {"t": 4.5, "sfx": "optic_fiber_lock_whoosh.wav"},
+          {"t": 6.2, "sfx": "apple_pay_style_clean_chime.wav"}
+        ]
+      }
+    },
+    {
+      "scene_id": 3,
+      "time_range": "00:11.0 - 00:19.0",
+      "duration_sec": 8,
+      "phase": "16_CONCURRENT_SESSIONS_AND_APPEND_FREE",
+      "veo_prompt": "Cinematic 3D isometric macro view, 9:16 vertical. A sleek black titanium processor core splitting into 16 parallel glowing cyan execution lanes running simultaneously at high speed without collision, while a dedicated golden stream channel flows freely. High-contrast studio rim lighting, Raycast and Apple M-series chip reveal style.",
+      "ui_motion_spec": {
+        "layer_type": "16_slot_parallel_telemetry_hud",
+        "elements": [
+          {
+            "t_start": 11.2,
+            "t_end": 15.0,
+            "component": "16_session_grid",
+            "visual": "4x4 minimal telemetry grid where all 16 slots light up `ACTIVE REPL / BUILD / SEARCH` concurrently (`16 / 16 Concurrent Sessions`)"
+          },
+          {
+            "t_start": 15.1,
+            "t_end": 19.0,
+            "component": "append_stream_lane",
+            "visual": "Live log stream bar showing `mode: append` bypassing mutex queue (`Lock-Exempt Fast Lane: 0ms Wait`)"
+          }
+        ]
+      },
+      "kinetic_typography": {
+        "line_1": "16개 동시 세션 병렬 질주",
+        "line_2": "Append 무잠금 스트리밍",
+        "accent_word": "16개 동시 세션",
+        "accent_color": "#06B6D4",
+        "font_spec": "Pretendard ExtraBold 66pt, #06B6D4 electric cyan metric counter `16x`",
+        "animation": "Counter rolls rapidly from 01 to 16 in 0.4s, followed by clean sub-label reveal"
+      },
+      "narration_ko": "단일 스레드의 병목을 부쉈습니다. 최대 16개 동시 세션이 병렬로 질주하고, Append 스트림은 락 대기 없이 즉시 기록됩니다.",
+      "lyria_bgm_and_sfx": {
+        "bgm_cue": "Synth arpeggio doubles in speed (16th-note pulse) to match the 16 parallel lanes",
+        "sfx_cues": [
+          {"t": 11.4, "sfx": "16_core_ignition_cascade.wav"},
+          {"t": 15.2, "sfx": "high_speed_data_stream_hum.wav"}
+        ]
+      }
+    },
+    {
+      "scene_id": 4,
+      "time_range": "00:19.0 - 00:27.0",
+      "duration_sec": 8,
+      "phase": "EXPECTED_SHA256_AND_DUAL_ALLOWLIST",
+      "veo_prompt": "Cinematic 3D close-up of a precision cryptographic vault lock made of brushed dark aluminum and sapphire glass, 9:16 vertical. Two glowing laser beams scan a crystalline code block; when the cryptographic rings align perfectly, the lock turns emerald green and performs a micro-surgical laser edit. Dark luxury tech commercial lighting.",
+      "ui_motion_spec": {
+        "layer_type": "surgical_edit_and_sha256_diff",
+        "elements": [
+          {
+            "t_start": 19.3,
+            "t_end": 23.0,
+            "component": "sha256_verification_card",
+            "visual": "Code diff card calling `edit_block` -> `expectedSha256: 047cf068...` matches live file hash -> `[SHA-256 VERIFIED ✓]`"
+          },
+          {
+            "t_start": 23.1,
+            "t_end": 27.0,
+            "component": "dual_root_shield",
+            "visual": "Split path bar: `readRoots: [D:\\workspace]` (Open) | `writeRoots: [D:\\workspace\\sandbox]` (Strict Write Lock)"
+          }
+        ]
+      },
+      "kinetic_typography": {
+        "line_1": "expectedSha256 해시 검증",
+        "line_2": "오차 0%의 외과수술형 편집",
+        "accent_word": "expectedSha256",
+        "accent_color": "#F59E0B",
+        "font_spec": "Pretendard ExtraBold 64pt, monospace pill for `expectedSha256` in #F59E0B -> #10B981",
+        "animation": "Hash characters scramble for 0.3s then lock into solid emerald text"
+      },
+      "narration_ko": "파일 덮어쓰기 사고는 끝났습니다. expectedSha256 해시 검증과 이중 폴더 화이트리스트가 승인된 경로와 정확한 해시만 외과수술처럼 수정합니다.",
+      "lyria_bgm_and_sfx": {
+        "bgm_cue": "Clean rhythmic bassline with precise metallic rimshots on the beat",
+        "sfx_cues": [
+          {"t": 19.8, "sfx": "mechanical_vault_click_lock.wav"},
+          {"t": 23.4, "sfx": "surgical_laser_etch.wav"}
+        ]
+      }
+    },
+    {
+      "scene_id": 5,
+      "time_range": "00:27.0 - 00:35.0",
+      "duration_sec": 8,
+      "phase": "3_MINUTE_SETUP_WIZARD_AND_60_TESTS",
+      "veo_prompt": "Cinematic over-the-shoulder shot of a sleek minimalist dark-mode developer desk, 9:16 vertical. A glowing holographic Windows 11 terminal floats slightly above a custom mechanical keyboard, surrounded by subtle emerald ambient light. Clean depth of field, Apple MacBook Pro reveal aesthetic.",
+      "ui_motion_spec": {
+        "layer_type": "live_terminal_60fps_typing",
+        "elements": [
+          {
+            "t_start": 27.2,
+            "t_end": 31.0,
+            "component": "powershell_live_typing",
+            "visual": "60fps keystroke animation typing `npm run setup` -> Instant output: `✓ Generated client-snippets.json` & `✓ MSIX LocalCache Junction Synced`"
+          },
+          {
+            "t_start": 31.1,
+            "t_end": 35.0,
+            "component": "test_suite_sweep",
+            "visual": "Fast test runner counter: `Node.js 49/49 PASS` + `Python 11/11 PASS` -> `[60 / 60 VERIFIED]`"
+          }
+        ]
+      },
+      "kinetic_typography": {
+        "line_1": "npm run setup 단 한 줄.",
+        "line_2": "3분 만에 끝나는 완벽한 연결",
+        "accent_word": "npm run setup",
+        "accent_color": "#34D399",
+        "font_spec": "JetBrains Mono / Pretendard Bold 62pt, high-contrast terminal green #34D399",
+        "animation": "Typewriter cursor reveal synced to mechanical keyboard clack SFX"
+      },
+      "narration_ko": "설치는 단 한 줄이면 충분합니다. npm run setup으로 스니펫 생성부터 Windows MSIX 경로 통합, 60개 자동 검증까지 3분 만에 완료됩니다.",
+      "lyria_bgm_and_sfx": {
+        "bgm_cue": "Uplifting synth chord progression building toward the finale",
+        "sfx_cues": [
+          {"t": 27.4, "sfx": "custom_mechanical_keyboard_thock_burst.wav"},
+          {"t": 31.5, "sfx": "60_tests_all_green_harmonic_ding.wav"}
+        ]
+      }
+    },
+    {
+      "scene_id": 6,
+      "time_range": "00:35.0 - 00:42.0",
+      "duration_sec": 7,
+      "phase": "OUTRO_CTA_AND_SEAMLESS_LOOP",
+      "veo_prompt": "Cinematic 3D hero logo reveal in a dark obsidian studio, 9:16 vertical. A glowing emerald and cyan cybernetic shield emblem hovers above a sleek Windows 11 workstation, radiating a protective dome of light. Camera slowly pulls back into a clean dark vignette for seamless loop transition.",
+      "ui_motion_spec": {
+        "layer_type": "github_release_cta_card",
+        "elements": [
+          {
+            "t_start": 35.2,
+            "t_end": 42.0,
+            "component": "github_repo_card",
+            "visual": "Centered glassmorphic card: `github.com/shinjaehyun20/local-commander` • `[MIT Open Source]` • `[★ Star on GitHub]` button pulse"
+          }
+        ]
+      },
+      "kinetic_typography": {
+        "line_1": "내 PC는 오직 내 통제하에.",
+        "line_2": "Local Commander (MIT)",
+        "accent_word": "Local Commander",
+        "accent_color": "#10B981",
+        "font_spec": "Pretendard ExtraBold 68pt centered, sub-line 42pt #94A3B8",
+        "animation": "Smooth scale-in (0.94 -> 1.0) with subtle emerald glow bloom"
+      },
+      "narration_ko": "내 코드는 오직 내 PC 안에서만. 지금 GitHub에서 Local Commander를 무료로 시작하세요.",
+      "lyria_bgm_and_sfx": {
+        "bgm_cue": "Resonant final synth chord at 35.5s with clean sub-bass tail that seamlessly bridges back into Scene 1's 0.0s tension riser",
+        "sfx_cues": [
+          {"t": 35.5, "sfx": "deep_cinematic_braam_and_shimmer.wav"}
+        ]
+      }
+    }
+  ]
+}

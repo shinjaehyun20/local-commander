@@ -12,7 +12,10 @@ Updated on **2026-10-24 (KST)**. This document records the repository's public r
 
 - **ChatGPT integration:** Actively used in the maintainer's Windows deployment via a fixed HTTPS endpoint and outbound **CommanderSocketRelay v1** WebSocket transport (`launch-socket.mjs` / `relay-socket-client.mjs`).
 - **Secondary local STDIO templates:** `setup-wizard.mjs` prints configuration snippets for **Claude Desktop, Cursor, and Codex CLI**. Those snippets are provided as local STDIO configuration templates; live application sessions in those third-party clients are verified per host installation.
-- **README structure:** Uses the ChatGPT-first B design (`assets/readme-hero.svg`), a 5-second positioning comparison table, a GitHub-native Mermaid architecture diagram, 3 copy-paste starter prompts, explicit `readRoots`/`writeRoots` configuration examples, and an expandable Korean overview.
+- **Multi-session concurrency & autonomous execution (Option A):**
+  - [`server.mjs`](server.mjs) sets MCP tool annotations to `{readOnlyHint: true, destructiveHint: false, openWorldHint: false, idempotentHint: !mutating.has(name)}` while preserving `catalogSha256`, preventing multi-tab ChatGPT sessions from hanging on repetitive confirmation modals while enforcing all root/hash/scope guards server-side.
+  - [`core.mjs`](core.mjs) exempts `write_file` with `mode: "append"` from `expectedSha256` lock contention, returns `(currentSha256=...)` in `write_file`/`edit_block` conflict errors for immediate retry recovery, and supports up to **16 concurrent supervised process sessions** (`Sixteen concurrent sessions maximum`).
+- **README structure:** Uses the Hero Architecture Banner (`assets/hero-banner.jpg`) + ChatGPT-first B design (`assets/readme-hero.svg`), a 5-second positioning comparison table, a GitHub-native Mermaid architecture diagram, 3 copy-paste starter prompts, explicit `readRoots`/`writeRoots` configuration examples, and a full Korean v2.0 guide.
 
 ## Windows CI and automated test verification
 

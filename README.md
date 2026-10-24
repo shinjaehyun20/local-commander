@@ -34,8 +34,8 @@ Connect **ChatGPT Web/App** (via your own fixed HTTPS/WSS endpoint) or **local d
 | **Primary Connection Target** | Cloud relay dashboard | Local `stdio` apps only (Claude Desktop / IDEs) — **cannot connect directly to ChatGPT Web** | **ChatGPT-First (Remote HTTPS/WSS + OAuth 2.1 PKCE) AND Local `stdio` / Loopback HTTP** |
 | **Data Sovereignty & Relay Ownership** | Commands & outputs traverse third-party vendor cloud servers | Local process only | **100% Self-Hosted Zero Third-Party Relay** (runs on your Windows PC + your own domain/Worker) |
 | **Read vs. Write Boundary Separation** | Single workspace toggle | Global allowed directory list | **Dual Whitelist (`readRoots` vs. `writeRoots`) + Symlink/Junction escape prevention** |
-| **Blind-Overwrite Protection** | Direct file overwrite | Direct file overwrite | **Mandatory `expectedSha256` optimistic concurrency check before any existing-file edit** |
-| **Windows Path & Process Hygiene** | Host-dependent | Manual termination; raw temp/virtual paths | **Windows Job Object (`supervise.py`) kills full child trees + `fs.realpathSync.native` canonicalization** |
+| **Blind-Overwrite Protection & Multi-Session Recovery** | Direct file overwrite | Direct file overwrite | **Mandatory `expectedSha256` check on rewrite/edit (returns `currentSha256` on conflict) + lock-free `mode: "append"`** |
+| **Windows Path & Process Hygiene** | Host-dependent | Manual termination; raw temp/virtual paths | **Windows Job Object (`supervise.py`, up to 16 concurrent sessions) + `fs.realpathSync.native` canonicalization** |
 | **Verification & Provenance** | Closed source | Untracked | **60 Automated Tests (49 Node + 11 Python) + `SOURCE_MANIFEST.json` SHA-256 verification** |
 
 ---
@@ -134,8 +134,8 @@ Worried about an AI agent modifying files outside your target folder or overwrit
 
 1. **Dual Directory Whitelist (`readRoots` vs. `writeRoots`)**: Give the AI broad context across reference repositories in `readRoots`, while restricting file creation and edits strictly to `writeRoots`.
 2. **Canonical Path & Symlink Escape Prevention**: Every path and parent directory is resolved through `fs.realpathSync.native` (normalizing Windows 8.3 short paths like `RUNNER~1` and blocking symlink/junction traversal outside allowed roots).
-3. **Optimistic Concurrency (`expectedSha256`)**: `write_file` (on existing files) and `edit_block` require the caller to pass the exact `expectedSha256` returned by `read_file`. If you edited the file locally in your IDE, the hash changes and the stale AI overwrite is rejected.
-4. **Explicit Shell & Remote Write Switches**: Both `allowShell` and `allowRemoteWrites` default to `false`.
+3. **Optimistic Concurrency (`expectedSha256`) & Multi-Session Conflict Recovery**: `write_file` (in `rewrite` mode on existing files) and `edit_block` require the caller to pass the exact `expectedSha256` returned by `read_file`. If another session modified the file first, the server rejects the stale write and returns `Conflict: current SHA256 required (currentSha256=<hash>)` for immediate recovery, while `write_file` with `mode: "append"` appends without hash contention.
+4. **Autonomous Multi-Tab Execution & Explicit Shell/Remote Switches**: Both `allowShell` and `allowRemoteWrites` default to `false`. When enabled, MCP tool annotations (`readOnlyHint: true, destructiveHint: false, openWorldHint: false`) prevent multi-tab ChatGPT sessions from stalling on repetitive confirmation modals while enforcing all root, hash, and OAuth scope checks deterministically on the host, supporting up to **16 concurrent supervised process sessions**.
 
 ```json
 {
@@ -170,10 +170,10 @@ The MCP engine ([`server.mjs`](server.mjs) / [`core.mjs`](core.mjs)) exposes **1
 | | `read_multiple_files` | `desktop.read` | Batch-reads multiple files within `readRoots` with per-file `sha256` hashes. |
 | | `get_file_info` | `desktop.read` | Inspects file size, timestamps, line count, encoding, and `sha256` without loading full content. |
 | **3. Streaming Search** | `start_search` | `desktop.read` | Searches filenames or file contents across `readRoots` with bounded result limits. |
-| **4. Surgical Diff & File Write** | `edit_block` | `desktop.write` | Replaces an exact unique text block inside `writeRoots`; requires matching `expectedSha256` and preserves `CRLF`/`LF` & BOM. |
-| | `write_file` | `desktop.write` | Creates a new file or updates an existing file in `writeRoots` (existing files require `expectedSha256`). |
+| **4. Surgical Diff & File Write** | `edit_block` | `desktop.write` | Replaces an exact unique text block inside `writeRoots`; requires matching `expectedSha256` (returns `currentSha256` on conflict) and preserves `CRLF`/`LF` & BOM. |
+| | `write_file` | `desktop.write` | Creates, rewrites (`expectedSha256` required on existing files), or appends (`mode: "append"`, hash-exempt) text files in `writeRoots`. |
 | | `create_directory` | `desktop.write` | Creates a directory hierarchy inside an allowed `writeRoots` path. |
-| **5. Supervised Process & REPL Control** | `start_process` | `process.execute` | Spawns a command inside a Windows Job Object (`supervise.py`) when `allowShell: true`. |
+| **5. Supervised Process & REPL Control** | `start_process` | `process.execute` | Spawns a command inside a Windows Job Object (`supervise.py`, up to 16 concurrent sessions) when `allowShell: true`. |
 | | `interact_with_process` | `process.execute` | Sends stdin input to a running Commander-owned interactive REPL or shell session. |
 | | `read_process_output` | `desktop.read` | Reads buffered stdout/stderr and exit state from a Commander-owned process session. |
 | | `list_sessions` | `desktop.read` | Lists active and recently completed Commander-supervised process sessions. |
@@ -300,8 +300,8 @@ py -3.11 tests/startup_test.py
 | **ChatGPT 웹/앱 연결** | 유료 클라우드 구독 필요 | 로컬 앱(`stdio`) 전용 — **ChatGPT 웹 직접 연결 불가** | **ChatGPT-First 고정 HTTPS/WSS 릴레이 + OAuth 2.1 PKCE 기본 내장** |
 | **데이터 주권 및 프라이버시** | 모든 명령어와 파일 출력이 외부 벤더 서버를 경유 | 로컬 프로세스 한정 | **제3자 중계 서버 Zero — 100% 본인 PC 및 자체 도메인/Worker에서 직접 구동** |
 | **읽기/쓰기 권한 분리** | 단일 워크스페이스 허용 | 전역 허용 폴더 목록 | **`readRoots`(읽기 전용)와 `writeRoots`(쓰기 샌드박스) 이중 분리 + 심볼릭 링크/정션 우회 차단** |
-| **파일 덮어쓰기 방지** | 무조건 덮어쓰기 | 무조건 덮어쓰기 | **기존 파일 수정 시 `expectedSha256` 해시 일치 필수 검증 및 줄바꿈(`CRLF`/`LF`)·인코딩 보존** |
-| **Windows 프로세스/경로 복구** | 호스트 의존 | 수동 종료 필요 | **Windows Job Object(`supervise.py`) 기반 자식 트리 일괄 종료 + Windows 8.3 단축 경로(`fs.realpathSync.native`) 정규화** |
+| **파일 덮어쓰기 방지 및 다중 세션 복구** | 무조건 덮어쓰기 | 무조건 덮어쓰기 | **기존 파일 `rewrite`/`edit_block` 시 `expectedSha256` 검증(충돌 시 `currentSha256` 즉시 반환) + `mode: "append"` 무잠금 추가 지원** |
+| **Windows 프로세스/경로 복구** | 호스트 의존 | 수동 종료 필요 | **Windows Job Object(`supervise.py`, 최대 16개 동시 세션) 기반 자식 트리 일괄 종료 + Windows 8.3 단축 경로(`fs.realpathSync.native`) 정규화** |
 
 ### 3분 설치 및 첫 실행 프롬프트 3선
 

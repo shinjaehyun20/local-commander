@@ -79,8 +79,8 @@ export class Commander {
     if(office.test(file))throw Error('Office/PDF writes require a source-preserving document workflow');
     if(Buffer.byteLength(args.content)>2*1024*1024)throw Error('Content too large');
     const exists=fs.existsSync(file), before=exists?fs.readFileSync(file):null;
-    if(exists && args.expectedSha256!==hash(before))throw Error('Conflict: current SHA256 required');
-    if(!exists && args.expectedSha256)throw Error('Conflict: file does not exist');
+    if(exists && args.mode!=='append' && args.expectedSha256!==hash(before))throw Error(`Conflict: current SHA256 required (currentSha256=${hash(before)})`);
+    if(!exists && args.expectedSha256 && args.mode!=='append')throw Error('Conflict: file does not exist');
     fs.mkdirSync(path.dirname(file),{recursive:true});
     this.resolve(file,true);
     const format=before?decodeText(before):{encoding:'utf8',bom:false};
@@ -94,7 +94,7 @@ export class Commander {
     if(!args.oldText)throw Error('oldText must not be empty');
     const r=this.readFile({path:args.path,offset:0,length:1000});
     const file=this.resolve(args.path,true), content=decodeText(fs.readFileSync(file)).text;
-    if(args.expectedSha256!==r.sha256)throw Error('Conflict: current SHA256 required');
+    if(args.expectedSha256!==r.sha256)throw Error(`Conflict: current SHA256 required (currentSha256=${r.sha256})`);
     const occurrences=content.split(args.oldText).length-1;
     if(occurrences!==1)throw Error('oldText must occur exactly once');
     return this.writeFile({path:file,content:content.replace(args.oldText,args.newText),expectedSha256:args.expectedSha256});
@@ -136,7 +136,7 @@ export class Commander {
   }
   async startProcess(args) {
     if(!this.config.allowShell)throw Error('Process execution is disabled');
-    if([...this.sessions.values()].filter(s=>s.state==='running').length>=4)throw Error('Four concurrent sessions maximum');
+    if([...this.sessions.values()].filter(s=>s.state==='running').length>=16)throw Error('Sixteen concurrent sessions maximum');
     while(this.sessions.size>=100){const old=[...this.sessions.entries()].find(([,s])=>s.state!=='running');if(!old)throw Error('Session history full');this.sessions.delete(old[0]);}
     const cwd=this.resolve(args.cwd||'.'), executable=args.executable, argv=args.args||[];
     if(!executable || argv.some(a=>typeof a!=='string'))throw Error('Executable and string args required');

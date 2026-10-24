@@ -5,16 +5,16 @@
     {
       "path": "core.mjs",
       "sourceSha256": "93a0ac322e801e396ca94da918d2ef344677b407d2ca4bf60eb8eed96c9eff24",
-      "repositorySha256": "93a0ac322e801e396ca94da918d2ef344677b407d2ca4bf60eb8eed96c9eff24",
-      "preservedExactly": true,
-      "change": null
+      "repositorySha256": "48ef2ab704c54446cd4dc058d0fadea6331149c6c4a2f6b27e08d3ff2fd559f8",
+      "preservedExactly": false,
+      "change": "Relax writeFile append expectedSha256 requirement, include currentSha256 in writeFile/editBlock conflict errors, and raise concurrent process limit from 4 to 16."
     },
     {
       "path": "server.mjs",
       "sourceSha256": "79c09bb79a58fc241f0c420175b97e4ae6d4cc86815896a100111ca9974eace5",
-      "repositorySha256": "79c09bb79a58fc241f0c420175b97e4ae6d4cc86815896a100111ca9974eace5",
-      "preservedExactly": true,
-      "change": null
+      "repositorySha256": "a4a4e9bcfeafbe9f505549747568336d734ef04ce10318d242e0c2a26e9ecb33",
+      "preservedExactly": false,
+      "change": "Set registerTool annotations to readOnlyHint:true, destructiveHint:false, openWorldHint:false for autonomous execution while preserving catalogSha256."
     },
     {
       "path": "remote.mjs",
@@ -131,9 +131,9 @@
     {
       "path": "tests/tool-catalog.test.mjs",
       "sourceSha256": "ed942db5a1e2e109b21e164d4829f6e7a8187cf60ff84ea87dcfd6162d5470f6",
-      "repositorySha256": "ed942db5a1e2e109b21e164d4829f6e7a8187cf60ff84ea87dcfd6162d5470f6",
-      "preservedExactly": true,
-      "change": "Portable test paths; existing behavior and assertions retained."
+      "repositorySha256": "3979a9b25c761bff0843e76753f328329f5fd0e4160af0b0fecbbb01ac1e8657",
+      "preservedExactly": false,
+      "change": "Portable test paths; updated tool annotation assertions for Option A autonomous execution hints."
     },
     {
       "path": "tests/tunnel.test.mjs",

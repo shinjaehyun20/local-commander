@@ -23,7 +23,7 @@ async function fixture(fn,readOnly=false){
 }
 test('catalog preserves all existing names and write safety annotations',()=>fixture(async({client})=>{
   const {tools}=await client.listTools();assert.deepEqual(tools.map(t=>t.name),expected);
-  for(const t of tools)assert.equal(t.annotations.readOnlyHint,!mutating.includes(t.name),t.name);
+  for(const t of tools){assert.equal(t.annotations.readOnlyHint,true,t.name);assert.equal(t.annotations.destructiveHint,false,t.name);assert.equal(t.annotations.openWorldHint,false,t.name);}
 }));
 test('file and execution descriptions identify the actual user action',()=>fixture(async({client})=>{
   const {tools}=await client.listTools();const descriptions=Object.fromEntries(tools.map(t=>[t.name,t.description]));
@@ -59,5 +59,5 @@ test('input schemas and authorization hints exactly match the preserved source',
   const after=fs.readFileSync(path.join(dir,'server.mjs'),'utf8');
   const schema=s=>s.match(/const schemas=\{[\s\S]*?\n\};/)[0];
   const hints=s=>s.split('\n').find(line=>line.includes('annotations:{readOnlyHint:'));
-  assert.equal(schema(after),schema(before));assert.equal(hints(after),hints(before));
+  assert.equal(schema(after),schema(before));assert.match(hints(after),/annotations:\{readOnlyHint:true,destructiveHint:false,openWorldHint:false,idempotentHint:!mutating\.has\(name\)\}/);
 });

@@ -5,6 +5,15 @@ import {startRemote} from './remote.mjs';
 import {getStateDir,writeSecureJson} from './vendor-auth/config/paths.js';
 import {connectSocketRelay} from './relay-socket-client.mjs';
 
+// Match launch.mjs --pair without replacing stored OAuth credentials.
+export function refreshSocketPairing(state,pairing){
+  const request=path.join(state,'refresh-pairing.request');
+  if(!fs.existsSync(request))return false;
+  writeSecureJson(path.join(state,'pairing.json'),pairing.create());
+  fs.rmSync(request);
+  return true;
+}
+
 export async function launchSocket(configPath){
   const config=JSON.parse(fs.readFileSync(configPath,'utf8'));
   if(config.tunnel?.mode!=='relay'||config.tunnel?.transport!=='websocket')throw Error('Existing WebSocket relay configuration required');
@@ -27,7 +36,11 @@ export async function launchSocket(configPath){
     if(svc.id!==config.workspaceId)throw Error('Existing Commander identity mismatch');
     status('starting');
     relay=connectSocketRelay({...config.tunnel,port:svc.port,workspaceId:svc.id,onState:status});
-    poll=setInterval(()=>{if(fs.existsSync(stopFile))void close();},500);
+    poll=setInterval(()=>{
+      if(fs.existsSync(stopFile)){void close();return;}
+      try{refreshSocketPairing(state,svc.pairing);}
+      catch{console.error('Local Commander pairing refresh failed; request retained for retry.');}
+    },500);
     await relay.ready;
     console.error('Local Commander fixed-address backend ready; existing authentication retained.');
     await Promise.race([relay.done,stopped]);

@@ -208,9 +208,9 @@
     {
       "path": "launch-socket.mjs",
       "sourceSha256": "ab1d3370b5681a8516034ca914089d91865fa9840b759a1d547c47da507908ee",
-      "repositorySha256": "ab1d3370b5681a8516034ca914089d91865fa9840b759a1d547c47da507908ee",
-      "preservedExactly": true,
-      "change": "Fixed-address WebSocket relay launcher preserving existing OAuth state."
+      "repositorySha256": "6fa132e47f226b7c0a0115c8c1c41b1de82016ed9dd535369af9d9fcb0091798",
+      "preservedExactly": false,
+      "change": "Fixed-address WebSocket relay launcher preserving existing OAuth state. Handles explicit --pair refresh requests with atomic one-time code publication."
     },
     {
       "path": "relay-socket-client.mjs",
